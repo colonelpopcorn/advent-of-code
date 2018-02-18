@@ -1,8 +1,4 @@
 defmodule Day1 do
-  @moduledoc """
-  Documentation for Advent2015.
-  """
-
   @doc """
   This will get santa through the building, and tell us what floor he ends up on. Takes tokens from input and increments numbers based on which one is read. Returns the increment.
 
