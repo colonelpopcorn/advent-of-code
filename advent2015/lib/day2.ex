@@ -18,9 +18,33 @@ defmodule Day2 do
 		|> get_total_square_footage(0)		
 	end
 
-	def test_main() do
-		{ :ok, input } = File.read('input/day2.txt')
+	@doc """
+	This will calculate the ribbon needed for presents.
+
+	## Examples
+
+	  iex> Day2.secondary("2x3x4")
+	  34
+
+	  iex> Day2.secondary("1x1x10")
+	  14
+
+	"""
+
+	def secondary(input) do
+		input
+		|> strip_whitespace
+		|> get_measurements([])
+		|> get_total_ribbon_needs(0)		
+	end
+
+	def test_main do
+		{ :ok, input } = File.read("input/day2.txt")
 		main(input)
+	end
+
+	def test_secondary do
+		{ :ok, input } = File.read("input/day2.txt")
 	end
 
 	@doc """
