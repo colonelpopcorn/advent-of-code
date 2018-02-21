@@ -45,6 +45,7 @@ defmodule Day2 do
 
 	def test_secondary do
 		{ :ok, input } = File.read("input/day2.txt")
+		secondary(input)
 	end
 
 	@doc """
@@ -92,8 +93,6 @@ defmodule Day2 do
 	## Examples
 	  iex> Day2.get_total_square_footage([%{length: 2, width: 3, height: 4}], 0)
 	  58
-	  
-	  
 
 	"""
 	def get_total_square_footage([head | tail], accumulator) do
@@ -102,8 +101,32 @@ defmodule Day2 do
 		get_total_square_footage(tail, accumulator)
 	end
 
+
+
 	def get_total_square_footage([], accumulator) do
 		accumulator
+	end
+
+	@doc """
+	This will split our input and return a list of elements.
+	
+	## Examples
+	  iex> Day2.get_total_ribbon_needs([%{length: 2, width: 3, height: 4}], 0)
+	  34
+
+	  iex> Day2.get_total_ribbon_needs([%{length: 1, width: 1, height: 10}], 0)
+	  14
+
+	"""
+
+	def get_total_ribbon_needs([head | tail], accumulator) do
+		current = get_ribbon_amount(head)
+		accumulator = accumulator + current
+		get_total_ribbon_needs(tail, accumulator)		
+	end
+
+	def get_total_ribbon_needs([], accumulator) do
+		accumulator		
 	end
 
 	def get_paper_amount(measurement) do
@@ -113,6 +136,11 @@ defmodule Day2 do
 		sides = sides ++ [smallest_side]
 		sum_sides(sides, 0)
 	end
+
+	def get_ribbon_amount(measurement) do
+		((measurement.length*2) + (measurement.width*2) + (measurement.length*measurement.width*measurement.height))
+	end
+	
 
 	def sum_sides([head | tail], accumulator) do
 		sum_sides(tail, accumulator + head)
