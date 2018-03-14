@@ -14,7 +14,6 @@ func main() {
         fmt.Println("Failed! %s", err)
         return
     } else {
-        // fmt.Println(string(data))
         fmt.Println(Day1(string(data)))
         return
     }
@@ -22,7 +21,8 @@ func main() {
 }
 
 func Day1(input string) int {
-    splitList := strings.Split(string(input), ", ")
+    trimmedInput := strings.TrimSuffix(input, "\n")
+    splitList := strings.Split(string(trimmedInput), ", ")
     directionMap := make(map[string]int)
 
     directionMap["north"] = 0
@@ -32,25 +32,21 @@ func Day1(input string) int {
     initialDirection := "north"
     result := 0
 
-    for i := range splitList {
-        initialDirection = getDirection(initialDirection, splitList[i][0:1])
-        steps, err := strconv.Atoi(splitList[i][1:])
+    for _, val := range splitList {
+        initialDirection = getDirection(initialDirection, val[0:1])
+        steps, err := strconv.Atoi(val[1:])
         if err != nil {
-            return result
+            fmt.Println(err)
         }
         directionMap[initialDirection] += steps
     }
 
-    yDistanceAway := (directionMap["north"] - directionMap["south"])
-    if yDistanceAway < 0 {
-        yDistanceAway = (yDistanceAway * -1)
-    }
-    xDistanceAwawy := (directionMap["east"] - directionMap["west"])
-    if xDistanceAwawy < 0 {
-        xDistanceAwawy = (xDistanceAwawy * -1)
-    }
+    // Make an arbitrary direction negative to cancel out the progress of the opposite direction
+    result = directionMap["north"] + (directionMap["south"] * -1) + directionMap["east"] + (directionMap["west"] * -1)
 
-    result = yDistanceAway + xDistanceAwawy
+    if result < 0 {
+        result = (result * -1)
+    }
 
     return result
 }
